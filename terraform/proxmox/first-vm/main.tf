@@ -1,4 +1,4 @@
-resource "proxmox_vm_qemu" "test_vm" {
+resource "proxmox_vm_qemu" "ubuntu-base" {
   name        = "tf-ubuntu-base"
   target_node = "pve"
   clone       = "ubuntu-cloud-template"
