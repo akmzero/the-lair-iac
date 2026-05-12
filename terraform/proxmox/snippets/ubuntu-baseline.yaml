@@ -1,0 +1,27 @@
+#cloud-config
+
+# Ansible User setup
+users:
+  - name: ansible
+    # NOPASSWD is required for non-interactive Ansible runs.
+    # Security relies on protecting the private SSH key, not sudo password.
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: true   # disable password login entirely; key-only
+    ssh_authorized_keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBO/6/Zsa9qKZoYcKsQkm7FRBOelo9plcnSynHyrGVW/ ansible-automation"
+
+# Ensure package list is fresh on first boot (no upgrade)
+package_update: true
+package_upgrade: false
+
+# Baseline Packages
+packages:
+  - qemu-guest-agent
+
+# Run on first boot
+runcmd:
+  - systemctl enable --now qemu-guest-agent
+  
+# Output Final Message in the cloud-init log
+final_message: "Baseline cloud-init complete after $UPTIME seconds"
