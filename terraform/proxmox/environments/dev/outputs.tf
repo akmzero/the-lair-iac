@@ -1,29 +1,24 @@
-output "vm_id" {
-  description = "Proxmox VMID"
-  value       = proxmox_vm_qemu.ubuntu-base.vmid
+output "vm_ids" {
+  description = "Map of VM keys to Proxmox VMIDs"
+  value       = { for k, m in module.ubuntu-dev : k => m.vm_id }
 }
 
-output "vm_name" {
-  description = "VM display name"
-  value       = proxmox_vm_qemu.ubuntu-base.name
+output "vm_names" {
+  description = "Map of VM keys to display names"
+  value       = { for k, m in module.ubuntu-dev : k => m.vm_name }
 }
 
-output "vm_ipv4_address" {
-  description = "IPv4 address assigned to the VM"
-  value       = proxmox_vm_qemu.ubuntu-base.default_ipv4_address
+output "vm_ipv4_addresses" {
+  description = "Map of VM keys to IPv4 addresses"
+  value       = { for k, m in module.ubuntu-dev : k => m.ipv4_address }
 }
 
-output "vm_mac_address" {
-  description = "MAC address of the VM's first network interface — useful for DHCP reservations"
-  value       = proxmox_vm_qemu.ubuntu-base.network[0].macaddr
+output "vm_mac_addresses" {
+  description = "Map of VM keys to MAC addresses"
+  value       = { for k, m in module.ubuntu-dev : k => m.mac_address }
 }
 
-output "ssh_user" {
-  description = "Username configured via cloud-init"
-  value       = var.vm_user
-}
-
-output "ansible_connection_string" {
-  description = "SSH connection string"
-  value       = "${var.vm_user}@${proxmox_vm_qemu.ubuntu-base.default_ipv4_address}"
+output "ansible_connection_strings" {
+  description = "Map of VM keys to SSH connection strings"
+  value       = { for k, m in module.ubuntu-dev : k => "${var.vm_user}@${m.ipv4_address}" }
 }

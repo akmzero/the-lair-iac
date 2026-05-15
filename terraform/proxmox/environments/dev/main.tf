@@ -1,56 +1,18 @@
-resource "proxmox_vm_qemu" "ubuntu-base" {
+locals {
+  vms = {
+    "1" = { cores = 1, memory = 2048, disk_size = "20G" }
+    "2" = { cores = 4, memory = 4096, disk_size = "25G" }
+  }
+}
 
-  # Tags
-  tags = "ubuntu;tf-managed;role-based"
+module "ubuntu-dev" {
+  source   = "../../modules/ubuntu-server"
+  for_each = local.vms
 
-  # Identity
-  name        = "tf-ubuntu-base"
+  name        = "tf-ubuntu-${each.key}"
   target_node = "pve"
-
-  # Clone Source
-  clone      = "ubuntu-cloud-template"
-  full_clone = true
-
-  # Hardware
-  sockets = 1
-  cores   = 2
-  memory  = 2048
-  scsihw  = "virtio-scsi-pci"
-
-  # Guest Feats
-  agent   = 1
-  os_type = "cloud-init"
-
-  # Boot Order
-  boot = "order=scsi0"
-
-  # Disks
-  disks {
-    scsi {
-      scsi0 {
-        disk {
-          size    = "20G"
-          storage = "ssdpool"
-        }
-      }
-    }
-    ide {
-      ide2 {
-        cloudinit {
-          storage = "ssdpool"
-        }
-      }
-    }
-  }
-
-  # Networking
-  network {
-    id     = 0
-    model  = "virtio"
-    bridge = "vmbr1"
-  }
-
-  # Cloud-init
-  ipconfig0 = var.ip_config
-  cicustom  = "user=local:snippets/ubuntu-baseline.yaml"
+  cores       = each.value.cores
+  memory      = each.value.memory
+  disk_size   = each.value.disk_size
+  tags        = "ubuntu;tf-managed;dev"
 }

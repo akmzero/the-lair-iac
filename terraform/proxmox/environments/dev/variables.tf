@@ -1,39 +1,21 @@
 variable "proxmox_api_url" {
   type        = string
-  description = "The URL of the Proxmox API endpoint"
+  description = "Proxmox API Endpoint"
 }
 
 variable "proxmox_api_token_id" {
   type        = string
-  description = "The Proxmox API token ID, in the format user@realm!tokenname"
+  description = "Proxmox API token ID (user@realm!tokenname)"
 }
 
 variable "proxmox_api_token_secret" {
   type        = string
-  description = "The Proxmox API token secret (UUID format)"
+  description = "Proxmox API token secret"
   sensitive   = true
 }
 
 variable "vm_user" {
   type        = string
-  description = "Initial admin user created by cloud-init; used by Ansible for subsequent configuration"
+  description = "SSH user configured in the cloud-init snippet"
   default     = "ansible"
-}
-
-variable "vm_password" {
-  type        = string
-  description = "VM Password"
-  sensitive   = true
-  default     = ""
-}
-
-variable "ssh_public_key" {
-  type        = string
-  description = "VM Public SSH Key"
-}
-
-variable "ip_config" {
-  type        = string
-  description = "VM Network Type"
-  default     = "ip=dhcp"
 }
