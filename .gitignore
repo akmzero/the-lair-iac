@@ -46,3 +46,6 @@ nixos/secrets/
 tfplan
 tfout
 *.tfplan
+
+# Optional Files
+*.zip
