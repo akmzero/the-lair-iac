@@ -1,6 +1,6 @@
 resource "proxmox_vm_qemu" "this" {
 
-  # Identity (from caller)
+  # Identity
   name        = var.name
   target_node = var.target_node
   tags        = var.tags
@@ -12,8 +12,20 @@ resource "proxmox_vm_qemu" "this" {
   # Hardware
   cores   = var.cores
   memory  = var.memory
-  sockets = 1
+  sockets = var.sockets
   scsihw  = "virtio-scsi-pci"
+  
+  # PCI passthrough
+  dynamic "pci" {
+    for_each = var.pci_devices
+    content {
+      id          = pci.value.id
+      raw_id      = pci.value.raw_id
+      pcie        = pci.value.pcie
+      rombar      = pci.value.rombar
+      primary_gpu = pci.value.primary_gpu
+    }
+  }
 
   # Guest Feats
   agent   = 1
