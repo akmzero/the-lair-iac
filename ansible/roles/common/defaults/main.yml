@@ -1,0 +1,22 @@
+---
+timezone: America/New_York
+
+baseline_packages:
+  - htop
+  - curl
+  - wget
+  - git
+  - ncdu
+  - duf
+  - tmux
+  - nmap
+  - tree
+  - rsync
+  - iotop
+  - dnsutils
+  - gnupg
+  - ca-certificates
+  - python3-pip
+  - unattended-upgrades
+  - nfs-common
+  - cifs-utils

@@ -1,0 +1,13 @@
+---
+- name: Configure all Ubuntu hosts
+  hosts: all
+  become: true
+
+  roles:
+    - common
+    - role: tailscale
+      when: tailscale_enabled | default(false)
+    - role: docker
+      when: docker_enabled | default(false)
+    - role: nvidia_container_toolkit
+      when: gpu_enabled | default(false)

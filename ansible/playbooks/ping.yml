@@ -1,0 +1,8 @@
+---
+- name: Verify SSH connectivity to all hosts
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Ping via Ansible module
+      ansible.builtin.ping:

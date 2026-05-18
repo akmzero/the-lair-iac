@@ -1,0 +1,7 @@
+---
+# Default role toggles for every host.
+# Override per-host in host_vars/, or per-environment in group_vars/<env>.yml.
+
+tailscale_enabled: true
+docker_enabled:    false
+gpu_enabled:       false
