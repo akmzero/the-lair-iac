@@ -44,6 +44,12 @@ variable "ip_config" {
   default     = "ip=dhcp"
 }
 
+variable "vlan_tag" {
+  type        = number
+  description = "VLAN ID for the network interface. Null = untagged."
+  default     = null
+}
+
 variable "sockets" {
   type        = number
   description = "Number of CPU sockets"
@@ -61,3 +67,4 @@ variable "pci_devices" {
   description = "PCI devices to pass through. Slot id is explicit (0-15)."
   default     = []
 }
+

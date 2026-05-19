@@ -14,7 +14,7 @@ resource "proxmox_vm_qemu" "this" {
   memory  = var.memory
   sockets = var.sockets
   scsihw  = "virtio-scsi-pci"
-  
+
   # PCI passthrough
   dynamic "pci" {
     for_each = var.pci_devices
@@ -58,6 +58,7 @@ resource "proxmox_vm_qemu" "this" {
     id     = 0
     model  = "virtio"
     bridge = "vmbr1"
+    tag    = var.vlan_tag # null = untagged
   }
 
   # Cloud-init
